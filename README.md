@@ -56,6 +56,10 @@ hdfs dfs -cat p2-out/part-* | head
 
 4. **Comparison with Project 1 (full dataset).** I compared the number of output lines from Project 2 on the full dataset (594 files, 408 MB) with the Reduce output records of Project 1 (420,968).
 
+    | Comparison with Project 1 (small dataset) |
+    |---|
+   |<img width="869" height="215" alt="Image" src="https://github.com/user-attachments/assets/d2f49ea6-46f7-489a-9fc6-b9cb2f1c4d47" />|
+
     | Version | Input method | Output lines |
     |---|---|---|
     | Project 1 MapReduce | Hadoop Streaming (`iso-8859-1`) | 420,968 |
@@ -77,6 +81,9 @@ hdfs dfs -cat p2-out/part-* | head
 
 
 #### 2-1. First experiment results
+| local | cscluster00 |
+|---|---|
+|<img width="787" height="67" alt="Image" src="https://github.com/user-attachments/assets/32b11e01-f787-4907-bd0c-a3eeb536ea66" />|<img width="689" height="387" alt="Image" src="https://github.com/user-attachments/assets/6a672dc4-2667-4c79-9175-f4823e67832d" />|
 
 | Environment | Project 1 MapReduce | Project 2 Spark | Project 2 speedup |
 |---|---|---|---|
@@ -121,6 +128,10 @@ I enabled the event log with `spark.eventLog.enabled=true` and used a script I w
 | `spark.default.parallelism=64` | 9 | 15.6 s | 22.4 s | 64 | 58.6 s |
 | `spark.files.maxPartitionBytes=8m` | 44 | 4.4 s | 12.2 s | 44 | 33.4 s |
 
+| Screenshot |
+|---|
+|<img width="853" height="472" alt="Image" src="https://github.com/user-attachments/assets/e73f5efe-fab9-4598-be2f-f62ca533ffdb" />|
+
 - **Default setting:** Although I set `minPartitions=64` in the code, the 594 small files on HDFS were combined into 9 input splits. The later stages inherited the same number of partitions, so every stage ran with 9 tasks.
 - **`spark.default.parallelism=64`:** This setting only increases the number of partitions for the stages after `reduceByKey`. The later stages increased to 64 tasks, but Stage 0 stayed at 9.
 - **`spark.files.maxPartitionBytes=8m`:** This setting reduces the maximum size that one input split can hold from the default 128 MB to 8 MB. Stage 0 was split into 44 tasks and spread across 7 nodes.
@@ -157,4 +168,6 @@ The output was 420,968 lines in every environment, matching Project 1.
 ## Sources used
 - Apache Spark Examples — https://spark.apache.org/examples.html
 - Spark API Reference — https://spark.apache.org/docs/latest/api/python/reference/index.html
+- StackOverflow - https://stackoverflow.com/questions/63834379/spark-performance-local-faster-than-cluster, https://stackoverflow.com/questions/47129950/spark-textfile-vs-wholetextfiles
+- Medium - https://medium.com/@pranjalpatle4/spark-partitioning-explained-the-most-underrated-concept-3ebe1af5fdff, https://medium.com/towards-data-engineering/spark-partitions-explained-why-partitioning-matters-for-performance-857ac2799c47
 - Claude (Anthropic) — used to translate the project specification, to translate my Korean draft of this README into English, to debug the code, to analyze the logs and validate my hypotheses, and to format the results into Markdown tables.
