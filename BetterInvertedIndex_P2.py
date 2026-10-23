@@ -17,6 +17,7 @@ sc = spark.sparkContext
 def to_pair(x):
     path, text = x
     doc = os.path.basename(path)
+    text = data.decode('iso-8859-1')
     return [((i.lower(), doc), 1) for i in re.findall(r'\b[A-Za-z]+\b', text)]
     
 def swap(item):
@@ -28,7 +29,7 @@ def final_print(item):
     return word + "\t" + ", ".join("%d %s" % (c, d) for d, c in files)
 
 
-result = (sc.wholeTextFiles(sys.argv[1], minPartitions=64)
+result = (sc.binaryFiles(sys.argv[1], minPartitions=64)
             .flatMap(to_pair)
             .reduceByKey(lambda x, y: x + y)
             .map(swap)
