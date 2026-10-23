@@ -1,14 +1,11 @@
 # Project #: Project Name
 
-* Author: Your Name
+* Author: Subin Min
 * Class: CS435-535 Section 1
-* Semester: 
+* Semester: Fall 2026
 
 ## Overview
-
-Concisely explain what the program does. If this exceeds a couple of sentences, you're going
-too far. Generally you should be pulling this right from the project specification. I don't
-want you to just cut and paste, but paraphrase what is stated in the project specification.
+This project improves the inverted index MapReduce example using Spark. The original version emits, for each word, every filename in which the word appears — including duplicates, so a word occur many copies of that filename. This version instead counts the occurrences of each word per file and emits each filename once, prefixed by its count. The filenames for a given word are ordered by count in descending order, and filenames with equal counts are ordered ascending by filename. The program is written in Python and runs under Apache Spark.
 
 ## Reflection
 
@@ -34,11 +31,6 @@ This section presents timing and other results of the experiments that you were 
 as part of the project.
 
 ## Sources used
-
-If you used any sources outside of the lecture notes, class lab files, or text book you need
-to list them here.
-
-----------
-This README template is using Markdown. Here is a quick cheat sheet on Markdown tags:
-[https://www.markdownguide.org/cheat-sheet/](https://www.markdownguide.org/cheat-sheet/).
-To preview your README.md output, you can view it on GitHub or in eclipse.
+- Apache Spark Exmaples — https://spark.apache.org/examples.html
+- Spark API Reference — https://spark.apache.org/docs/latest/api/python/reference/index.html
+- Claude (Anthropic) — used to translate the project specification, to translate my Korean draft of this README into English, to debug the code and to format the results into Markdown tables.
