@@ -16,7 +16,7 @@ spark = SparkSession.builder.appName("p2").getOrCreate()
 sc = spark.sparkContext
 
 def to_pair(x):
-    path, text = x
+    path, data = x
     doc = os.path.basename(path)
     text = data.decode('iso-8859-1')
     return [((i.lower(), doc), 1) for i in re.findall(r'\b[A-Za-z]+\b', text)]
